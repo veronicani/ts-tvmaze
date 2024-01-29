@@ -42,14 +42,14 @@ function populateShows(shows: IShow[]) : void {
  *    Hide episodes area (that only gets shown if they ask for episodes)
  */
 
-async function searchForShowAndDisplay() {
+async function searchForShowAndDisplay() : Promise<void> {
   const term = $("#searchForm-term").val() as string;
   const shows = await searchShowsByTerm(term);
 
   $episodesArea.hide();
   populateShows(shows);
 }
-
+//NOTE: giving this fn a evt type gives 'No overload' err on "submit"
 $searchForm.on("submit", async function (evt) {
   evt.preventDefault();
   await searchForShowAndDisplay();
@@ -73,16 +73,15 @@ function populateEpisodes(episodes: IEpisode[]) : void {
   };
 };
 
-/** Show episode area (if asked for episodes) and call getEpisodesOfShow. */
+/** Gets list of episodes from API and display in episodesArea.
+*/
 
-async function searchForEpisodesAndDisplay(evt: JQuery.ClickEvent): Promise<void> {
+async function getEpisodesAndDisplay(evt: JQuery.ClickEvent): Promise<void> {
   const id = Number($(evt.target).closest('.Show').attr('data-show-id'))
   const episodes = await getEpisodesOfShow(id);
-
-  console.log("Episodes: ", episodes);
 
   populateEpisodes(episodes);
   $episodesArea.show();
 }
 
-$showsList.on("click", "button", searchForEpisodesAndDisplay);
+$showsList.on("click", "button", getEpisodesAndDisplay);

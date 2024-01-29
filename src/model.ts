@@ -15,14 +15,14 @@ async function searchShowsByTerm(term: string) : Promise<IShow[]> {
     const showsAndScores = await resp.json();
 
     const showsData = showsAndScores.map(s => s.show);
-    //FIXME:
+    //NOTE: do we need to specify type for this? and how to add 'bang' (!) if so
     const shows = showsData.map(s => ({
       id: s.id,
       name: s.name,
       summary: s.summary,
       image: s.image?.medium || MISSING_IMAGE_URL
     }));
-    console.log('result shows:', shows);
+    
     return shows;
 }
 
@@ -34,8 +34,7 @@ async function searchShowsByTerm(term: string) : Promise<IShow[]> {
 async function getEpisodesOfShow(id: number) : Promise<IEpisode[]> {
   const resp = await fetch(`${TVMAZE_API_URL}shows/${id}/episodes`);
   const episodesData = await resp.json();
-  // console.log("getEpisodesOfShow episodes=", episodesData);
-  //check if the status is ok
+
   if (episodesData.status === 404) throw new Error ("404: Show not found.");
 
   const episodes = episodesData.map(

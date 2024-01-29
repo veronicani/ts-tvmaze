@@ -1,6 +1,4 @@
-// Returns (promise) array of show objects: [show, show, ...].
-// *    Each show object should contain exactly: {id, name, summary, image}
-// *    (if no image URL given by API, put in a default image URL)
+/** Interfaces for TVMaze data models. */
 
 interface IShow {
   id: number,
@@ -9,10 +7,6 @@ interface IShow {
   image: string
 }
 
-/** Given a show ID, get from API and return (promise) array of episodes:
- *      { id, name, season, number }
- */
-
 interface IEpisode {
   id: number,
   name: string,
@@ -20,6 +14,7 @@ interface IEpisode {
   number: number
 }
 
+//NOTE: needs export type for interfaces
 export type { IShow, IEpisode };
 
 
