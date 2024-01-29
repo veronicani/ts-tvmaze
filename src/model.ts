@@ -1,6 +1,6 @@
 const MISSING_IMAGE_URL = "https://tinyurl.com/missing-tv";
 const TVMAZE_API_URL = "https://api.tvmaze.com/";
-import { Ishow } from "./interfaces";
+import { Ishow, Iepisode } from "./interfaces";
 
 
 /** Given a search term, search for tv shows that match that query.
@@ -11,16 +11,16 @@ import { Ishow } from "./interfaces";
  */
 
 async function searchShowsByTerm(term: string) : Promise<Ishow[]> {
-  // ADD: Remove placeholder & make request to TVMaze search shows API.
     const resp = await fetch(`${TVMAZE_API_URL}search/shows?q=${term}`);
     const showsAndScores = await resp.json();
-    // console.log("searchShowsByTerm shows=", showsAndScores);
+
     const showsData = showsAndScores.map(s => s.show);
+    //FIXME:
     const shows = showsData.map(s => ({
       id: s.id,
       name: s.name,
       summary: s.summary,
-      image: s.image || MISSING_IMAGE_URL
+      image: s.image?.medium || MISSING_IMAGE_URL
     }));
     console.log('result shows:', shows);
     return shows;
@@ -31,8 +31,8 @@ async function searchShowsByTerm(term: string) : Promise<Ishow[]> {
  *      { id, name, season, number }
  */
 
-async function getEpisodesOfShow(id) {
-  //TODO: implement
+async function getEpisodesOfShow(id: number) : Promise<Iepisode[]> {
+  return "test"
 }
 
 

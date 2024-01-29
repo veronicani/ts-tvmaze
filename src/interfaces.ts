@@ -9,4 +9,17 @@ interface Ishow {
   image: string
 }
 
-export type { Ishow }
+/** Given a show ID, get from API and return (promise) array of episodes:
+ *      { id, name, season, number }
+ */
+
+interface Iepisode {
+  id: number,
+  name: string,
+  season: number,
+  number: number
+}
+
+export type { Ishow, Iepisode }
+
+
