@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import { getEpisodesOfShow, searchShowsByTerm } from "./model.ts";
-import { IShow } from './interfaces';
+import { IEpisode, IShow } from './interfaces';
 
 const $showsList = $("#showsList");
 const $episodesArea = $("#episodesArea");
@@ -55,7 +55,13 @@ $searchForm.on("submit", async function (evt) {
 });
 
 
-/** Write a clear docstring for this function... */
+/** Given list of episodes from a show, create markup for each and add to DOM */
 
-function populateEpisodes(episodes) {
+function populateEpisodes(episodes: IEpisode[]) : void {
+  $episodesArea.empty();
+
+  for (let episode of episodes) {
+    //TODO: CHARLES!
+  }
+
 }
