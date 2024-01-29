@@ -2,7 +2,7 @@
 // *    Each show object should contain exactly: {id, name, summary, image}
 // *    (if no image URL given by API, put in a default image URL)
 
-interface Ishow {
+interface IShow {
   id: number,
   name: string,
   summary: string,
@@ -13,13 +13,13 @@ interface Ishow {
  *      { id, name, season, number }
  */
 
-interface Iepisode {
+interface IEpisode {
   id: number,
   name: string,
   season: number,
   number: number
 }
 
-export type { Ishow, Iepisode }
+export type { IShow, IEpisode };
 
 
