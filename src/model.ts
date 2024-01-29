@@ -1,6 +1,6 @@
 const MISSING_IMAGE_URL = "https://tinyurl.com/missing-tv";
 const TVMAZE_API_URL = "https://api.tvmaze.com/";
-import { Ishow, Iepisode } from "./interfaces";
+import { IShow, IEpisode } from "./interfaces";
 
 
 /** Given a search term, search for tv shows that match that query.
@@ -10,7 +10,7 @@ import { Ishow, Iepisode } from "./interfaces";
  *    (if no image URL given by API, put in a default image URL)
  */
 
-async function searchShowsByTerm(term: string) : Promise<Ishow[]> {
+async function searchShowsByTerm(term: string) : Promise<IShow[]> {
     const resp = await fetch(`${TVMAZE_API_URL}search/shows?q=${term}`);
     const showsAndScores = await resp.json();
 
@@ -31,8 +31,17 @@ async function searchShowsByTerm(term: string) : Promise<Ishow[]> {
  *      { id, name, season, number }
  */
 
-async function getEpisodesOfShow(id: number) : Promise<Iepisode[]> {
-  return "test"
+async function getEpisodesOfShow(id: number) : Promise<IEpisode[]> {
+  const resp = await fetch(`${TVMAZE_API_URL}shows/${id}/episodes`);
+  const episodesData = await resp.json();
+  // console.log("getEpisodesOfShow episodes=", episodesData);
+  //check if the status is ok
+  if (episodesData.status === 404) throw new Error ("404: Show not found.");
+
+  const episodes = episodesData.map(
+    ({ id, name, season, number }) => ({ id, name, season, number }));
+  
+  return episodes;
 }
 
 
