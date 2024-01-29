@@ -5,6 +5,7 @@ import { IEpisode, IShow } from './interfaces';
 const $showsList = $("#showsList");
 const $episodesArea = $("#episodesArea");
 const $searchForm = $("#searchForm");
+const $episodesList = $("#episodesList");
 
 
 /** Given list of shows, create markup for each and to DOM */
@@ -42,7 +43,7 @@ function populateShows(shows: IShow[]) : void {
  */
 
 async function searchForShowAndDisplay() {
-  const term = $("#searchForm-term").val();
+  const term = $("#searchForm-term").val() as string;
   const shows = await searchShowsByTerm(term);
 
   $episodesArea.hide();
@@ -58,10 +59,30 @@ $searchForm.on("submit", async function (evt) {
 /** Given list of episodes from a show, create markup for each and add to DOM */
 
 function populateEpisodes(episodes: IEpisode[]) : void {
-  $episodesArea.empty();
+  $episodesList.empty();
 
   for (let episode of episodes) {
-    //TODO: CHARLES!
-  }
+    const $episode = $(
+        `<li>
+          ${episode.name} (season ${episode.season} number ${episode.number})
+        </li>
+        `
+    );
 
+    $episodesList.append($episode)
+  };
+};
+
+/** Show episode area (if asked for episodes) and call getEpisodesOfShow. */
+
+async function searchForEpisodesAndDisplay(evt: JQuery.ClickEvent): Promise<void> {
+  const id = Number($(evt.target).closest('.Show').attr('data-show-id'))
+  const episodes = await getEpisodesOfShow(id);
+
+  console.log("Episodes: ", episodes);
+
+  populateEpisodes(episodes);
+  $episodesArea.show();
 }
+
+$showsList.on("click", "button", searchForEpisodesAndDisplay);
