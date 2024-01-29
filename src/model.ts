@@ -14,7 +14,7 @@ async function searchShowsByTerm(term: string) : Promise<Ishow[]> {
   // ADD: Remove placeholder & make request to TVMaze search shows API.
     const resp = await fetch(`${TVMAZE_API_URL}search/shows?q=${term}`);
     const showsAndScores = await resp.json();
-    console.log("searchShowsByTerm shows=", showsAndScores);
+    // console.log("searchShowsByTerm shows=", showsAndScores);
     const showsData = showsAndScores.map(s => s.show);
     const shows = showsData.map(s => ({
       id: s.id,
@@ -22,6 +22,7 @@ async function searchShowsByTerm(term: string) : Promise<Ishow[]> {
       summary: s.summary,
       image: s.image || MISSING_IMAGE_URL
     }));
+    console.log('result shows:', shows);
     return shows;
 }
 
